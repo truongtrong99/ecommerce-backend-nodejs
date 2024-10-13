@@ -15,7 +15,7 @@ app.get("/", (req, res, next) => {
   const strCompress = "Hello World";
   return res.status(200).json({
     message: "Welcome to the API",
-    metadata: strCompress.repeat(1000),
+    metadata: strCompress.repeat(10000),
   });
 });
 //handle errors
