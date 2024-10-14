@@ -9,7 +9,9 @@ app.use(morgan("dev"));
 app.use(helmet());
 app.use(compression());
 //init db
-
+require("./dbs/init.mongodb");
+const { checkOverLoad } = require("./helper/check.connect");
+checkOverLoad();
 //init routes
 app.get("/", (req, res, next) => {
   const strCompress = "Hello World";
