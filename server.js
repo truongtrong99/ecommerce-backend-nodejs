@@ -4,8 +4,8 @@ const server = app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-process.on("SIGINT", (err) => {
-  server.close(() => {
-    console.log("Exit Server Process");
-  });
-});
+// process.on("SIGINT", (err) => {
+//   server.close(() => {
+//     console.log("Exit Server Process");
+//   });
+// });
