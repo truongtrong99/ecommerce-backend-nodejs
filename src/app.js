@@ -8,6 +8,7 @@ const app = express();
 app.use(morgan("dev"));
 app.use(helmet());
 app.use(compression());
+
 //init db
 require("./dbs/init.mongodb");
 // const { checkOverLoad } = require("./helper/check.connect");
@@ -20,6 +21,10 @@ require("./dbs/init.mongodb");
 //     metadata: strCompress.repeat(10000),
 //   });
 // });
+app.use(express.json())
+app.use(express.urlencoded({
+    extended: true
+}))
 app.use("/", require("./routes"));
 //handle errors
 

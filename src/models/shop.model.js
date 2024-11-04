@@ -5,18 +5,17 @@ const { model, Schema, Types } = require("mongoose"); // Erase if already requir
 const DOCUMENT_NAME = "Shop";
 const COLLECTION_NAME = "shops";
 // Declare the Schema of the Mongo model
-var shopSchema = new mongoose.Schema(
+var shopSchema = new Schema(
   {
     name: {
       type: String,
-      required: true,
-      unique: true,
-      index: true,
+      trim: true,
+      maxLength: 150,
     },
     email: {
       type: String,
-      required: true,
       unique: true,
+      trim: true,
     },
     password: {
       type: String,
@@ -43,4 +42,4 @@ var shopSchema = new mongoose.Schema(
 );
 
 //Export the model
-module.exports = mongoose.model(DOCUMENT_NAME, shopSchema);
+module.exports = model(DOCUMENT_NAME, shopSchema);
