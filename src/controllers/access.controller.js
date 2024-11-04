@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 const AccessService = require("../services/access.service");
 class AccessController {
   signUp = async (req, res, next) => {
@@ -6,10 +6,7 @@ class AccessController {
       console.log(req.body);
       //200: OK
       //201: Created
-      return res.status(201).json({
-        code: "XXX",
-        message: "Shop created successfully!",
-      });
+      return res.status(201).json(await AccessService.signUp(req.body));
     } catch (err) {
       next(err);
     }

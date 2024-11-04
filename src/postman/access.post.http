@@ -4,7 +4,7 @@ POST  {{urlDev}}/shop/signup
 content-type: {{contentType}}
 
 {
-    "name": "TEST",
-    "email": "test@gmail.com",
-    "password": "123456"
+    "name": "shop Test",
+    "email": "shoptest08@gmail.com",
+    "password": "abc123"
 }
