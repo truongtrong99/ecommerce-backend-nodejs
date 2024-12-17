@@ -7,6 +7,6 @@ x-api-key: {{x-api-key}}
 
 {
     "name": "shop Test",
-    "email": "shoptest08@gmail.com",
+    "email": "shopDev99@gmail.com",
     "password": "abc123"
 }
