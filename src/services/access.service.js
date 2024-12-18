@@ -17,6 +17,12 @@ const RoleShop = {
   ADMIN: "ADMIN",
 };
 class AccessService {
+  static logout = async (keyStore) => {
+    const delKey = await KeyTokenService.removeKeyById(keyStore._id);
+    console.log({ delKey });
+    return delKey;
+  };
+
   /**
     1- Check email in database
     2- match password
@@ -38,7 +44,7 @@ class AccessService {
     //step 3: create access token and refresh token
     const privateKey = crypto.randomBytes(64).toString("hex");
     const publicKey = crypto.randomBytes(64).toString("hex");
-    
+
     //step 4: generate tokens
     const { _id: userId } = foundShop;
     const tokens = await createTokenPair(
