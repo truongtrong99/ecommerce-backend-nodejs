@@ -1,6 +1,11 @@
 "use strict";
 
-const { product, clothing, electronic } = require("../models/product.model.js");
+const {
+  product,
+  clothing,
+  electronic,
+  furniture,
+} = require("../models/product.model.js");
 const { BadRequestError, ForbiddenError } = require("../core/error.response");
 // define factory class to create product
 class ProductFactory {
@@ -9,15 +14,18 @@ class ProductFactory {
    * payload
    */
   // create product
+  static productRegistry = {}; // key - class
+
+  static registerProductType(type, classRef) {
+    ProductFactory.productRegistry[type] = classRef;
+  }
+
   static async createProduct(type, payload) {
-    switch (type) {
-      case "Clothing":
-        return await new Clothing(payload).createProduct();
-      case "Electronics":
-        return await new Electronics(payload).createProduct();
-      default:
-        throw new BadRequestError(`Invalid product type ${type}`);
+    const productClass = ProductFactory.productRegistry[type];
+    if (!productClass) {
+      throw new BadRequestError(`Invalid product type ${type}`);
     }
+    return await new productClass(payload).createProduct();
   }
 }
 
@@ -87,18 +95,24 @@ class Electronics extends Product {
 }
 class Furniture extends Product {
   async createProduct() {
-    const newElectronic = await electronic.create({
+    const newFurniture = await furniture.create({
       ...this.product_attributes,
       product_shop: this.product_shop,
     });
-    if (!newElectronic) {
-      throw new BadRequestError("Create new Electronics failed");
+    if (!newFurniture) {
+      throw new BadRequestError("Create new Furnitures failed");
     }
-    const newProduct = await super.createProduct(newElectronic._id);
+    const newProduct = await super.createProduct(newFurniture._id);
     if (!newProduct) {
       throw new BadRequestError("Create new Product failed");
     }
     return newProduct;
   }
 }
+
+// register product type
+ProductFactory.registerProductType("Electronics", Electronics);
+ProductFactory.registerProductType("Clothing", Clothing);
+ProductFactory.registerProductType("Furniture", Furniture);
+// Add new product type here
 module.exports = ProductFactory;
