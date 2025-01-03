@@ -27,7 +27,7 @@ const productSchema = new Schema(
     product_type: {
       type: String,
       required: true,
-      enum: ["Electronic", "Clothing", "Furniture"],
+      enum: ["Electronics", "Clothing", "Furniture"],
     },
     product_shop: {
       type: Schema.Types.ObjectId,
@@ -69,6 +69,10 @@ const electronicSchema = new Schema(
     },
     model: String,
     color: String,
+    product_shop: {
+      type: Schema.Types.ObjectId,
+      ref: "Shop",
+    },
   },
   {
     collection: "electronics",

@@ -10,12 +10,11 @@ class ProductFactory {
    */
   // create product
   static async createProduct(type, payload) {
-    console.log("payload and type", type, payload);
     switch (type) {
       case "Clothing":
         return await new Clothing(payload).createProduct();
       case "Electronics":
-        return await new Electronics(payload);
+        return await new Electronics(payload).createProduct();
       default:
         throw new BadRequestError(`Invalid product type ${type}`);
     }
@@ -45,8 +44,11 @@ class Product {
   }
 
   // create new product
-  async createProduct() {
-    return await product.create(this);
+  async createProduct(product_id) {
+    return await product.create({
+      ...this,
+      _id: product_id,
+    });
   }
 }
 
@@ -69,11 +71,14 @@ class Clothing extends Product {
 // define subclass for different product types (electronic)
 class Electronics extends Product {
   async createProduct() {
-    const newElectronic = await electronic.create(this.product_attributes);
+    const newElectronic = await electronic.create({
+      ...this.product_attributes,
+      product_shop: this.product_shop,
+    });
     if (!newElectronic) {
       throw new BadRequestError("Create new Electronics failed");
     }
-    const newProduct = await super.createProduct();
+    const newProduct = await super.createProduct(newElectronic._id);
     if (!newProduct) {
       throw new BadRequestError("Create new Product failed");
     }
